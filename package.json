@@ -9,11 +9,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/labmicro/testing-basico-javascript.git"
+    "url": "https://github.com/LucastuFett/testing-basico-javascript.git"
   },
-  "author": "Esteban Volentini <evolentini@herrera.unt.edu.ar>",
+  "author": "Lucas Gutierrez <lucasgutie2003@gmail.com",
   "license": "MIT",
-  "homepage": "https://github.com/labmicro/testing-basico-javascript#readme",
+  "homepage": "https://github.com/LucastuFett/testing-basico-javascript#readme",
   "devDependencies": {
     "chai": "^4.3.10",
     "eslint": "^8.50.0",
