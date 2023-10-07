@@ -13,6 +13,14 @@ const it = require('mocha').it
 const assert = require('chai').assert
 const Lista = require('../src/lista.js')
 
+// Cuando se agrega un par a una lista vacia la lista de claves esta ordenada
+// Cuando se agrega un par con una clave menor a las existentes queda ordenada
+// Cuando se agrega un par con una clave mayor a las existentes queda ordenada
+// Cuando se elimina un par se reduce la cantidad
+// Cuando se elimina un par de la lista no se puede recuperar el valor
+// No se puede agregar un par en el que la clave no es una cadena
+// No se puede agregar un par en el que la clave es una cadena vacía
+
 describe('En una lista pares clave:valor ...', function () {
   describe('cuando la lista está vacía ...', function () {
     let lista = new Lista()
