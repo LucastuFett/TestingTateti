@@ -41,6 +41,9 @@ describe('En una lista pares clave:valor ...', function () {
     it('se puede recuperar el valor a partir de la clave', function () {
       assert.equal(lista.find('clave'), 'valor')
     })
+    it('la lista de claves esta ordenada', function () {
+      assert.deepEqual(lista.keys(), ['clave'])
+    })
   })
 
   describe('cuando se agregan dos elementos a una lista vacia ...', function () {
@@ -65,6 +68,44 @@ describe('En una lista pares clave:valor ...', function () {
     })
     it('se actualiza el valor almacenado', function () {
       assert.equal(lista.find('clave'), 'value')
+    })
+  })
+
+  describe('cuando se agrega un par con una clave ...', function () {
+    let lista = new Lista()
+    lista.add('clave', 'valor')
+    it('menor a las existentes queda ordenada', function () {
+      lista.add('abc', 'valorabc')
+      assert.deepEqual(lista.keys(), ['abc', 'clave'])
+    })
+    it('mayor a las existentes queda ordenada', function () {
+      lista.add('zbc', 'valorzbc')
+      assert.deepEqual(lista.keys(), ['abc', 'clave', 'zbc'])
+    })
+  })
+
+  describe('cuando se elimina un par ...', function () {
+    let lista = new Lista()
+    lista.add('clave', 'valor')
+    lista.add('key', 'value')
+    lista.remove('clave')
+    it('se reduce la cantidad', function () {
+      assert.equal(lista.count(), 1)
+    })
+    it('no se puede recuperar el valor', function () {
+      assert.isNaN(lista.find('clave'))
+    })
+  })
+
+  describe('no se puede agregar un par ...', function () {
+    let lista = new Lista()
+    it('en el que la clave no es una cadena', function () {
+      assert.isNaN(lista.add(123, 'valor'))
+      assert.equal(lista.count(), 0)
+    })
+    it('en el que la clave es una cadena vacia', function () {
+      assert.isNaN(lista.add('', 'valor'))
+      assert.equal(lista.count(), 0)
     })
   })
 })

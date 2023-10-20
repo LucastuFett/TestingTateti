@@ -27,6 +27,8 @@ module.exports = class Lista {
   }
 
   add(clave, valor) {
+    if (typeof clave != 'string') return NaN
+    if (clave === '') return NaN
     var elemento = this.#findElem(clave)
     if (elemento) elemento.valor = valor
     else this.#lista.push({ clave: clave, valor: valor })
@@ -40,5 +42,33 @@ module.exports = class Lista {
       })
     }
     return elemento
+  }
+
+  keys() {
+    var clavesOrd = []
+    if (this.#lista.length > 0) {
+      this.#lista.forEach((element) => {
+        clavesOrd.push(element.clave)
+      })
+    }
+    clavesOrd.sort(function (a, b) {
+      const claveA = a.toUpperCase()
+      const claveB = b.toUpperCase()
+      if (claveA < claveB) {
+        return -1
+      }
+      if (claveA > claveB) {
+        return 1
+      }
+    })
+    return clavesOrd
+  }
+
+  remove(clave) {
+    let nueva = []
+    for (let i = 0; i < this.#lista.length; i++) {
+      if (this.#lista[i].clave != clave) nueva.push(this.#lista[i])
+    }
+    this.#lista = nueva
   }
 }
