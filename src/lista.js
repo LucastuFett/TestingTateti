@@ -51,16 +51,7 @@ module.exports = class Lista {
         clavesOrd.push(element.clave)
       })
     }
-    clavesOrd.sort(function (a, b) {
-      const claveA = a.toUpperCase()
-      const claveB = b.toUpperCase()
-      if (claveA < claveB) {
-        return -1
-      }
-      if (claveA > claveB) {
-        return 1
-      }
-    })
+    clavesOrd.sort()
     return clavesOrd
   }
 
