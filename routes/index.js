@@ -7,9 +7,25 @@ router.get('/', function (req, res, next) {
 })
 
 let turno
-var tablero
+let tablero
 var jugadores
 const marcas = ['x', 'o']
+
+function buscarGanador() {
+  var ganador
+  var iguales
+  for (var indice = 0; indice < 3; indice++) {
+    iguales = true
+    for (var celda = 0; celda < 3; celda++) {
+      iguales = iguales && tablero[celda][indice] == marcas[turno]
+    }
+    if (iguales) {
+      ganador = turno
+      break
+    }
+  }
+  return ganador
+}
 
 router.put('/empezar', function (request, response) {
   turno = 0
@@ -31,13 +47,15 @@ router.put('/movimiento', function (request, response) {
   const fila = request.body.fila
 
   tablero[fila][columna] = marcas[turno]
+  var ganador = buscarGanador()
   turno = (turno + 1) % 2
 
   response.setHeader('Content-Type', 'application/json')
-  response.send({
-    turno: jugadores[turno],
-    tablero: tablero
-  })
+  if (isNaN(ganador)) {
+    response.send({ turno: jugadores[turno], tablero: tablero })
+  } else {
+    response.send({ ganador: jugadores[ganador], tablero: tablero })
+  }
 })
 
 module.exports = router

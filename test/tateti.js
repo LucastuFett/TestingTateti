@@ -40,7 +40,9 @@ describe('Juego de TaTeTi', () => {
     { jugador: 'Pedro', columna: 1, fila: 0 },
     { jugador: 'Juan', columna: 0, fila: 1 },
     { jugador: 'Pedro', columna: 1, fila: 1 },
-    { jugador: 'Juan', columna: 0, fila: 2 }
+    { jugador: 'Juan', columna: 0, fila: 2 }, // Gana Juan por Columna
+    { jugador: 'Juan', columna: 2, fila: 2 },
+    { jugador: 'Pedro', columna: 1, fila: 2 }
   ]
   describe('Se empieza un juego nuevo', () => {
     it('Todos los casilleros estan vacios y le toca mover al primer jugador', (done) => {
@@ -65,9 +67,8 @@ describe('Juego de TaTeTi', () => {
     })
   })
   describe('El primer jugador hace su primer movimiento', () => {
-    it('El casillero queda ocupado y le toca al otro jugador', (done) => {
+    it('El casillero queda ocupado y le toca al otro jugador', function (done) {
       chai.request(server).put('/empezar').send(juego).end()
-
       chai
         .request(server)
         .put('/movimiento')
@@ -88,7 +89,7 @@ describe('Juego de TaTeTi', () => {
   })
 
   describe('El segundo jugador hace su primer movimiento', () => {
-    it('El casillero queda ocupado y le toca al otro jugador', (done) => {
+    it('El casillero queda ocupado y le toca al otro jugador', function (done) {
       chai.request(server).put('/empezar').send(juego).end()
       chai.request(server).put('/movimiento').send(movimientos[0]).end()
       chai
@@ -105,6 +106,32 @@ describe('Juego de TaTeTi', () => {
             [' ', ' ', ' '],
             [' ', ' ', ' ']
           ])
+          done()
+        })
+    })
+  })
+  describe('El jugador marca tres casillas de', () => {
+    it('la misma columna, gana', (done) => {
+      chai.request(server).put('/empezar').send(juego).end()
+      chai.request(server).put('/movimiento').send(movimientos[0]).end()
+      chai.request(server).put('/movimiento').send(movimientos[1]).end()
+      chai.request(server).put('/movimiento').send(movimientos[2]).end()
+      chai.request(server).put('/movimiento').send(movimientos[3]).end()
+      chai.request(server).put('/movimiento').send(movimientos[5]).end()
+      chai
+        .request(server)
+        .put('/movimiento')
+        .send(movimientos[6])
+        .end((err, res) => {
+          res.should.have.status(200)
+          res.should.to.be.json
+          res.body.should.be.a('object')
+          res.body.should.have.property('tablero').eql([
+            ['x', 'o', ' '],
+            ['x', 'o', ' '],
+            [' ', 'o', 'x']
+          ])
+          res.body.should.have.property('ganador').eql('Pedro')
           done()
         })
     })
